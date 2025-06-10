@@ -1,40 +1,113 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 // Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+// Este código implementa o sistema de Batalha Naval com níveis Novato, Aventureiro e Mestre.
+
+#define TAM 10
+
+// Função para exibir qualquer matriz
+void exibirMatriz(int matriz[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int tabuleiro[TAM][TAM] = {0};
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    // Nível Novato - Posicionamento de 2 navios (um horizontal e um vertical)
+    // Navio horizontal na linha 0, colunas 0 a 2
+    for (int j = 0; j < 3; j++) {
+        tabuleiro[0][j] = 3;
+        printf("Navio horizontal: (%d, %d)\n", 0, j);
+    }
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    // Navio vertical na coluna 5, linhas 1 a 3
+    for (int i = 1; i < 4; i++) {
+        tabuleiro[i][5] = 3;
+        printf("Navio vertical: (%d, %d)\n", i, 5);
+    }
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    // Nível Aventureiro - Adicionando 2 navios diagonais
+    // Diagonal principal
+    for (int i = 0; i < 3; i++) {
+        tabuleiro[5 + i][5 + i] = 3;
+        printf("Navio diagonal principal: (%d, %d)\n", 5 + i, 5 + i);
+    }
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // Diagonal secundária
+    for (int i = 0; i < 3; i++) {
+        tabuleiro[7 - i][2 + i] = 3;
+        printf("Navio diagonal secundária: (%d, %d)\n", 7 - i, 2 + i);
+    }
+
+    printf("\nTabuleiro com navios:\n");
+    exibirMatriz(tabuleiro);
+
+    // Nível Mestre - Habilidades Especiais
+
+    // Tamanho da matriz de habilidade (5x5)
+    int habilidade[5][5];
+
+    // Cone: forma piramidal com vértice no topo
+    printf("\nHabilidade: Cone\n");
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (j >= 2 - i && j <= 2 + i) {
+                habilidade[i][j] = 1;
+            } else {
+                habilidade[i][j] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%d ", habilidade[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Cruz: linha e coluna centrais
+    printf("\nHabilidade: Cruz\n");
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (i == 2 || j == 2) {
+                habilidade[i][j] = 1;
+            } else {
+                habilidade[i][j] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%d ", habilidade[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Octaedro (losango)
+    printf("\nHabilidade: Octaedro\n");
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (abs(i - 2) + abs(j - 2) <= 2) {
+                habilidade[i][j] = 1;
+            } else {
+                habilidade[i][j] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%d ", habilidade[i][j]);
+        }
+        printf("\n");
+    }
 
     return 0;
 }
